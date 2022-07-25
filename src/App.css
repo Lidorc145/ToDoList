@@ -37,3 +37,12 @@
     transform: translateY(0px);
   }
 }
+
+.Button {
+  color: black;
+}
+
+/* Increase the specificity */
+.Button:disabled {
+  color: white;
+}
