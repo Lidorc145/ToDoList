@@ -3,13 +3,13 @@ import { RootState } from '../../app/store';
 import {MissionPriority, MissionStatus} from "../../common/Enums";
 
 export interface MissionState {
-  id: number;
-  date: number;
-  category: string;
-  title: string;
-  priority: MissionPriority;
-  status: MissionStatus;
-  description: string;
+  id?: number;
+  date?: number;
+  category?: string;
+  title?: string;
+  priority?: MissionPriority;
+  status?: MissionStatus;
+  description?: string;
 }
 export interface MissionListState {
   MissionListState: MissionState[];
@@ -20,7 +20,7 @@ const initialState: MissionListState = {
   MissionListState: new Array()
 };
 
-
+let id =1;
 export const missionSlice = createSlice({
   name: 'MissionList',
   initialState,
@@ -32,7 +32,7 @@ export const missionSlice = createSlice({
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
       state.MissionListState.push({
-        id: 1,
+        id: id++,
         date: new Date().getDate(),
         category: "Personal",
         title: "Complete Home Work",
@@ -41,7 +41,7 @@ export const missionSlice = createSlice({
         description: 'Complete all assignments before August.'
       });
       state.MissionListState.push({
-        id: 2,
+        id: id++,
         date: 5146,
         category: "Work",
         title: "Search Feature",
@@ -50,7 +50,7 @@ export const missionSlice = createSlice({
         description: "add ability to search in tasks."
       });
       state.MissionListState.push({
-        id: 3,
+        id: id++,
         date: new Date().getDate()+81486,
         category: "Work",
         title: "Add new To Do",
@@ -68,7 +68,7 @@ export const missionSlice = createSlice({
     },
     // Use the PayloadAction type to declare the contents of `action.payload`
     addMission: (state, action: PayloadAction<MissionState>) => {
-       state.MissionListState.push(action.payload);
+       state.MissionListState.push({id: id++, ...action.payload});
     },
   },
 });

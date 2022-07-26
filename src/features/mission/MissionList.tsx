@@ -3,8 +3,6 @@ import {isMobile} from 'react-device-detect';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
   initializeMissions,
-  editMission,
-  addMission,
   getMissions,
 } from './missionSlice';
 import './MissionList.module.css';

@@ -5,14 +5,14 @@ import {
     Card,
     CardContent,
     CardActions,
-    Typography, Badge, Avatar, IconButton, CardHeader,
+    Typography, Badge, IconButton, CardHeader,
 } from "@mui/material";
-import React, {useState, Component} from "react";
-import {MissionStatus, MissionPriority} from "../common/Enums";
+import React from "react";
+import {MissionStatus} from "../common/Enums";
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
-import {getMissions,updateMissionStatus, MissionState} from "../features/mission/missionSlice";
+import {updateMissionStatus, MissionState} from "../features/mission/missionSlice";
 
-import {useAppDispatch, useAppSelector} from '../app/hooks';
+import {useAppDispatch} from '../app/hooks';
 
 
 export function Mission (props:MissionState){

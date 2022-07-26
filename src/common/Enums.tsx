@@ -12,3 +12,8 @@ export enum MissionPriority {
     Low,
     Lowest
 }
+export enum MissionUpdateOperation{
+    Add,
+    Update,
+    Delete
+}

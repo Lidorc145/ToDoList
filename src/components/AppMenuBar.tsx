@@ -29,9 +29,12 @@ function AppMenuBar(){
                     To Do List
                 </Typography>
                 <Box sx={{ flexGrow: 1, display: {md: 'inline-flex', paddingRight: '20px'  } }}>
-                        <Link to={'/'}><Button key={'home'} sx={{ my: 2, color: 'white', display: 'block' }}>
-                            Home
-                        </Button></Link>
+                    <Link to={'/'}><Button key={'home'} sx={{ my: 2, color: 'white', display: 'block' }}>
+                        Home
+                    </Button></Link>
+                    <Link to={'/AddMission'}><Button key={'home'} sx={{ my: 2, color: 'white', display: 'block' }}>
+                        Add
+                    </Button></Link>
                         <Link to={'catgories'}><Button key={'catgories'} sx={{ my: 2, color: 'white', display: 'block' }}>
                                 Categories
                             </Button></Link>

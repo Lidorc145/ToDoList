@@ -2,5 +2,5 @@ div.MuiButtonGroup-root > button.MuiButton-root{
 font-size: x-small;
 }
 .Mission{
-
+    min-width: fit-content;
 }
