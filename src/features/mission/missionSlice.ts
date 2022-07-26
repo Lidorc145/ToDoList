@@ -17,7 +17,15 @@ export interface MissionListState {
 
 
 const initialState: MissionListState = {
-  MissionListState: new Array()
+  MissionListState: new Array({
+    id: 0,
+    date: new Date().getDate(),
+    category: "Personal",
+    title: "Complete Home Work",
+    priority: MissionPriority.High,
+    status: MissionStatus.InProgress,
+    description: 'Complete all assignments before August.'
+  })
 };
 
 let id =1;
@@ -63,6 +71,10 @@ export const missionSlice = createSlice({
       const index = state.MissionListState.findIndex(x=> x.id===action.payload.id);
       state.MissionListState[index].status = action.payload.status;
     },
+    updateMissionPriority:(state, action: PayloadAction<any>)=>{
+      const index = state.MissionListState.findIndex(x=> x.id===action.payload.id);
+      state.MissionListState[index].priority = (action.payload.priority+1)%7;
+    },
     editMission: (state) => {
 
     },
@@ -73,7 +85,7 @@ export const missionSlice = createSlice({
   },
 });
 
-export const { initializeMissions,updateMissionStatus, editMission, addMission } = missionSlice.actions;
+export const { initializeMissions,updateMissionStatus,updateMissionPriority, editMission, addMission } = missionSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

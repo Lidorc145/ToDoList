@@ -1,6 +1,21 @@
 div.MuiButtonGroup-root > button.MuiButton-root{
 font-size: x-small;
 }
+.MuiButtonGroup-root{
+
+}
 .Mission{
-    min-width: fit-content;
+
+}
+span.MuiTypography-root>div{
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+p.MuiTypography-root{
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }

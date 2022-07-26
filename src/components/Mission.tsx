@@ -1,50 +1,57 @@
 import './Mission.css';
 import {
-    ButtonGroup,
+    Badge,
     Button,
+    ButtonGroup,
     Card,
-    CardContent,
     CardActions,
-    Typography, Badge, IconButton, CardHeader,
+    CardContent,
+    CardHeader,
+    IconButton,
+    Typography,
 } from "@mui/material";
 import React from "react";
-import {MissionStatus} from "../common/Enums";
+import {MissionPriority, MissionStatus} from "../common/Enums";
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
-import {updateMissionStatus, MissionState} from "../features/mission/missionSlice";
-
+import {MissionState, updateMissionPriority, updateMissionStatus} from "../features/mission/missionSlice";
+import {format as dateFormat} from "date-fns";
 import {useAppDispatch} from '../app/hooks';
 
 
 export function Mission (props:MissionState){
     const dispatch = useAppDispatch();
-        const {
-            id,
-            date,
-            category,
-            title,
-            priority,
-            status,
-            description,
-        } = props;
+    const {
+        id,
+        date,
+        category,
+        title,
+        priority,
+        status,
+        description,
+    } = props;
 
-        const setMissionStatus = (status:MissionStatus)=>{return dispatch(updateMissionStatus({id,status}))};
-        return (
-            <Card className="Mission" variant="outlined">
-                <CardHeader
+    const setMissionStatus = (status: MissionStatus) => {
+        return dispatch(updateMissionStatus({id, status}))
+    };
 
-                    action={
-                        <IconButton aria-label="settings">
-                            <Badge badgeContent={priority} color="error" title="Priority">
-                                <PriorityHighIcon/>
-                            </Badge>
-                        </IconButton>
+    var formattedDate = dateFormat(new Date(), "MMMM do, yyyy");
+    return (
+        <Card className="Mission" variant="outlined">
+            <CardHeader
+
+                action={
+                    <IconButton aria-label="settings" onClick={()=>{dispatch(updateMissionPriority({id,priority}))}}>
+                        <Badge badgeContent={priority} color="error" title="Priority">
+                            <PriorityHighIcon/>
+                        </Badge>
+                    </IconButton>
                     }
-                    title={title}
+                    title={<div>{title}</div>}
                     subheader={category}
                 />
                 <CardContent>
                     <Typography sx={{mb: 1.5}} color="text.secondary">
-                        {date}
+                        {formattedDate}
                     </Typography>
                     <Typography variant="body2">
                         {description}

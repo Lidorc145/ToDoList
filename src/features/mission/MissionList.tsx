@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {isMobile} from 'react-device-detect';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
@@ -31,7 +31,7 @@ export function MissionList() {
     </Grid>
     <Grid item xs={6} md={10}>
       <Grid container spacing={isMobile?0:2} direction={isMobile?'column':"row"}>
-        { missionList.map((mission)=>{return <Grid item xs={6} md={4}><Mission {...mission}/></Grid>})}
+        { missionList.map((mission)=>{return <Grid key={mission.id} item xs={6} md={4}><Mission {...mission}/></Grid>})}
       </Grid>
     </Grid>
   </Grid>);
