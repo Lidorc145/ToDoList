@@ -46,3 +46,7 @@
 .Button:disabled {
   color: white;
 }
+
+.Mission{
+  margin-right: 5px;
+}
