@@ -21,7 +21,7 @@ export interface MissionState {
   date?: number;
   category?: string;
   title?: string;
-  priority?: MissionPriority;
+  priority: MissionPriority;
   status?: MissionStatus;
   description?: string;
 }
@@ -67,6 +67,10 @@ export const missionSlice = createSlice({
       const index = state.MissionListState.findIndex(x=> x.id===action.payload.id);
       state.MissionListState[index].status = action.payload.status;
     },
+    updateMission:(state, action: PayloadAction<any>)=>{
+      const index = state.MissionListState.findIndex(x=> x.id===action.payload.id);
+      state.MissionListState[index] = {...(action.payload)};
+    },
     updateMissionPriority:(state, action: PayloadAction<any>)=>{
       const index = state.MissionListState.findIndex(x=> x.id===action.payload.id);
       state.MissionListState[index].priority =(action.payload.priority+1)%7;
@@ -76,12 +80,15 @@ export const missionSlice = createSlice({
     },
     // Use the PayloadAction type to declare the contents of `action.payload`
     addMission: (state, action: PayloadAction<MissionState>) => {
-       state.MissionListState.push({id: id++, ...action.payload});
+      state.MissionListState.push({id: id++, ...action.payload});
+    },
+    removeMission:(state, action: PayloadAction<any>)=>{
+      state.MissionListState=state.MissionListState.filter(x=> x.id!=action.payload.id);
     },
   },
 });
 
-export const { initializeMissions,updateMissionStatus,updateMissionPriority, editMission, addMission } = missionSlice.actions;
+export const { initializeMissions,removeMission, updateMission,updateMissionStatus,updateMissionPriority, editMission, addMission } = missionSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

@@ -14,7 +14,6 @@ function App() {
           <AppMenuBar/>
           <Container maxWidth={'xl'} fixed>
               <Routes>
-                  <Route path="/addMission"  element={<UpdateMission {...{operation: MissionUpdateOperation.Add}} />} />
                   <Route path="/"  element={<MissionList />} />
                   <Route path="about" element={<About />} />
                   <Route path="*" element={<p>Error 404: page not found</p>} />

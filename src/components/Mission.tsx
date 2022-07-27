@@ -16,6 +16,7 @@ import {MissionState, updateMissionPriority, updateMissionStatus} from "../featu
 import {format as dateFormat} from "date-fns";
 import {useAppDispatch} from '../app/hooks';
 import {openModal,updateMissionData} from "../features/modal/modalSlice";
+import {translatePriorityToColor} from "../common/Utils";
 
 
 export function Mission (props:MissionState){
@@ -44,7 +45,7 @@ export function Mission (props:MissionState){
                     dispatch(updateMissionPriority({id, priority}))
                 }}>
 
-                    <Chip label={priority?MissionPriority[priority].toUpperCase():'SET PRIORITY'} color={translatePriorityToColor()} variant="outlined" icon={priority?<br/>:<PriorityHighIcon />} />
+                    <Chip label={priority?MissionPriority[priority].toUpperCase():'SET PRIORITY'} color={translatePriorityToColor(priority)} variant="outlined" icon={priority?<br/>:<PriorityHighIcon />} />
                 </IconButton>}
                 title={<div>{id + " | " + title}</div>}
                 subheader={category}
@@ -75,21 +76,4 @@ export function Mission (props:MissionState){
             </div>
         </Card>
     );
-
-    function translatePriorityToColor() {
-        switch (priority) {
-            case MissionPriority.Lowest:
-                return 'default';
-            case MissionPriority.Low:
-                return 'info';
-            case MissionPriority.Normal:
-                return 'primary';
-            case MissionPriority.High:
-                return 'secondary';
-            case MissionPriority.Highest:
-                return 'warning';
-            case MissionPriority.Urgent:
-                return 'error';
-        }
-    }
 }

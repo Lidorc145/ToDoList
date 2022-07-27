@@ -19,11 +19,14 @@ export const modalSlice = createSlice({
     // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
         updateMissionData:(state, action: PayloadAction<any>)=>{
-            console.log("^^^^^",action.payload.data);
             state.data = action.payload.data;
+        },
+        removeMissionData:(state)=>{
+            state.data = null
         },
         closeModal:(state)=>{
             state.open = false;
+            state.data=null;
         },
         openModal:(state)=>{
             state.open = true;
@@ -32,7 +35,7 @@ export const modalSlice = createSlice({
     },
 });
 
-export const { updateMissionData,closeModal,openModal } = modalSlice.actions;
+export const { updateMissionData, removeMissionData, closeModal, openModal } = modalSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

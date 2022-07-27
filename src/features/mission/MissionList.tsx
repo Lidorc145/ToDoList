@@ -2,7 +2,7 @@ import React from 'react';
 import {isMobile} from 'react-device-detect';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {getMissions, initializeMissions, MissionState,} from './missionSlice';
-import {isModalOpen, closeModal} from '../modal/modalSlice';
+import {closeModal, isModalOpen, openModal} from '../modal/modalSlice';
 import './MissionList.module.css';
 import {Mission} from "../../components/Mission";
 import {
@@ -11,8 +11,10 @@ import {
   CardActionArea,
   CardActions,
   CardContent,
-  CardHeader, FormControl,
-  Grid, InputLabel,
+  CardHeader,
+  FormControl,
+  Grid,
+  InputLabel,
   Modal,
   OutlinedInput,
   Typography
@@ -24,6 +26,7 @@ export function MissionList() {
   const missionList = useAppSelector(getMissions);
   const modalOpen = useAppSelector(isModalOpen);
   const dispatch = useAppDispatch();
+
 
   return ( <Grid container spacing={1} direction={isMobile?'column':"row"}>
     <Grid item xs={6} md={2} >
@@ -48,7 +51,7 @@ export function MissionList() {
             </CardActions>
           </CardActionArea>
           <CardActionArea>
-            <CardActions >
+            <CardActions onClick={() => dispatch(openModal())}>
               <Typography>
                 Add New Mission
               </Typography>
@@ -86,7 +89,7 @@ export function MissionList() {
         aria-describedby="parent-modal-description"
     >
       <Box className="modal">
-      <UpdateMission operation={MissionUpdateOperation.Update}/>
+      <UpdateMission/>
       </Box>
     </Modal>
   </Grid>);

@@ -1,61 +1,72 @@
 import './UpdateMission.css';
 import {
-    ButtonGroup,
     Button,
     Card,
     CardContent,
-    Badge,
-    IconButton,
     CardHeader,
+    Chip,
     FormControl,
+    IconButton,
+    InputLabel,
     OutlinedInput,
-    InputLabel, TextField, ToggleButton, ToggleButtonGroup,
+    TextField,
+    ToggleButton,
+    ToggleButtonGroup,
 } from "@mui/material";
-import React from "react";
-import {MissionStatus, MissionPriority, MissionUpdateOperation} from "../common/Enums";
+import React, {useState} from "react";
+import {MissionPriority, MissionStatus, MissionUpdateOperation} from "../common/Enums";
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
-import {addMission, MissionState} from "../features/mission/missionSlice";
+import {addMission, MissionState, removeMission, updateMission} from "../features/mission/missionSlice";
 import {useAppDispatch, useAppSelector} from '../app/hooks';
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import {DatePicker} from '@mui/x-date-pickers'
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import {getMissionData} from "../features/modal/modalSlice";
+import {closeModal, getMissionData} from "../features/modal/modalSlice";
+import {translatePriorityToColor} from "../common/Utils";
 
 export interface Props {
     missionData?: MissionState | null
-    operation: MissionUpdateOperation
+    //operation: MissionUpdateOperation
 }
 
 export function UpdateMission(props: Props) {
     const dispatch = useAppDispatch();
     const missionData = useAppSelector(getMissionData);
-    const [values, setValues] = React.useState<MissionState>(missionData);
+    const [values, setValues] = React.useState<MissionState>({
+        date: new Date().getTime(),
+        category: '',
+        title: '',
+        priority: MissionPriority.Normal,
+        status: MissionStatus.Waiting,
+        description: '',
+            ...missionData});
+console.log("ASDADSASDAD", missionData)
+    const [operation, setOperation] = useState<MissionUpdateOperation>(missionData?MissionUpdateOperation.Update:MissionUpdateOperation.Add)
 
-    const handleChange = (state: keyof MissionState | 'delete', value?: any) => {
-                switch (state) {
-
-                    case "date":
+    const handleChange = (state: keyof MissionState | 'clear', value?: any) => {
+        switch (state) {
+            case "date":
+                setValues({...values, [state]: value});
+                break;
+            case "clear":
+                setValues({
+                    date: new Date().getTime(),
+                    category: '',
+                    title: '',
+                    priority: MissionPriority.Normal,
+                    status: MissionStatus.Waiting,
+                    description: ''
+                });
+                break;
+            default:
+                return (event: any,value?:any) => {
+                    if(value!=undefined){
                         setValues({...values, [state]: value});
-                        break;
-                    case "delete":
-                        setValues({
-                            date: new Date().getTime(),
-                            category: '',
-                            title: '',
-                            priority: MissionPriority.Normal,
-                            status: MissionStatus.Waiting,
-                            description: ''
-                        });
-                        break;
-                    default:
-                        return (event: any,value?:any) => {
-                            if(value!=undefined){
-                                setValues({...values, [state]: value});
-                            }else{
-                                setValues({...values, [state]: event.target.value});
-                            }
-                        }
+                    }else{
+                        setValues({...values, [state]: event.target.value});
+                    }
                 }
+        }
     }
 
 
@@ -63,14 +74,15 @@ export function UpdateMission(props: Props) {
         <Card className="Mission" variant="outlined">
             <CardHeader
 
-                action={
-                    <IconButton aria-label="settings">
-                        <Badge badgeContent={values.priority} color="error" title="Priority">
-                            <PriorityHighIcon/>
-                        </Badge>
-                    </IconButton>
-                }
-                subheader={MissionUpdateOperation[props.operation]+" Mission"}
+                action={<IconButton aria-label="settings" onClick={(e) => {
+                    let newPriority = (values.priority+1)%7;
+                    setValues({...values, priority: newPriority });
+                }}>
+
+                    <Chip label={values.priority?MissionPriority[values.priority].toUpperCase():'SET PRIORITY'} color={translatePriorityToColor(values.priority)} variant="outlined" icon={values.priority?<br/>:<PriorityHighIcon />} />
+                    </IconButton>}
+
+                subheader={MissionUpdateOperation[operation]+" Mission: #"+values.id}
             />
             <CardContent>
                 <FormControl fullWidth className="formControl">
@@ -120,16 +132,29 @@ export function UpdateMission(props: Props) {
                         <ToggleButton value={MissionStatus.Done}>Done</ToggleButton>
                     </ToggleButtonGroup>
                 </FormControl>
-                <FormControl fullWidth className="operationButtons">
-                <Button size="small"
-                        color="error"
-                        variant="contained"
-                        onClick={()=>handleChange('delete')}>Delete</Button>
-                <Button size="small"
-                        color={"success"}
-                        variant="contained"
-                        onClick={()=>{dispatch(addMission(values))}}>Add Mission!</Button>
-
+                <FormControl fullWidth className="operationButtons" onClick={()=>dispatch(closeModal())}>
+                    {operation === MissionUpdateOperation.Update &&(<>
+                        <Button size="small"
+                                color="error"
+                                variant="contained"
+                                onClick={() => dispatch(removeMission(values))}>Delete Mission</Button>
+                        <Button size="small"
+                                color={"success"}
+                                variant="contained"
+                                onClick={()=>dispatch(updateMission(values))}>Update Mission</Button>
+                    </>)
+                    }
+                    {operation === MissionUpdateOperation.Add &&(<>
+                        <Button size="small"
+                                color="error"
+                                variant="contained"
+                                onClick={(e) => {e.stopPropagation(); handleChange('clear');}}>Clear</Button>
+                        <Button size="small"
+                                color={"success"}
+                                variant="contained"
+                                onClick={()=>dispatch(addMission(values))}>Add Mission</Button>
+                    </>)
+                    }
                 </FormControl>
             </CardContent>
         </Card>
