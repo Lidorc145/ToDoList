@@ -4,8 +4,9 @@ font-size: x-small;
 .MuiButtonGroup-root{
 
 }
-.Mission{
-
+.DisplayMission{
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 span.MuiTypography-root>div{
     display: -webkit-box;
@@ -18,4 +19,20 @@ p.MuiTypography-root{
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+div.statusButtons{
+
+    position: absolute;
+    bottom: 0;
+}
+.statusButtons>button{
+    font-size: xx-small;
+}
+div.MuiCardContent-root {
+    padding-top: 0px;
+}
+div.toggleStatusButton{
+    position: relative;
+    min-height: 35px;
+
 }

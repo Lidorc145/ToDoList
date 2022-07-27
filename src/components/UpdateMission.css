@@ -1,0 +1,13 @@
+div.formControl{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+div.operationButtons {
+    display: block;
+    text-align: center;
+    margin-top: 25px;
+}
+div.operationButtons>button {
+    margin: 10px;
+    width: 300px;
+}

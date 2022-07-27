@@ -19,7 +19,7 @@ export interface MissionListState {
 const initialState: MissionListState = {
   MissionListState: new Array({
     id: 0,
-    date: new Date().getDate(),
+    date: new Date().getTime(),
     category: "Personal",
     title: "Complete Home Work",
     priority: MissionPriority.High,

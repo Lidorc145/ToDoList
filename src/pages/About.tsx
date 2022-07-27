@@ -1,11 +1,38 @@
 import {Box, Paper} from "@mui/material";
-import React from "react";
+import React, {useEffect, useRef, useState} from "react";
 import './About.css';
+import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 
 function About(){
+    const [numPages, setNumPages] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1);
+    const ref = useRef({
+        offsetWidth: 0
+    });
+    function onDocumentLoadSuccess({ numPages }:any) {
+        setNumPages(numPages);
+    }
+    const [width, setWidth] = useState(5);
+    useEffect(() => {
+        function handleWindowResize() {
+            setWidth(ref.current.offsetWidth);
+        }
+        handleWindowResize();
+        window.addEventListener('resize',handleWindowResize)
+        return () => {
+            window.removeEventListener('resize', handleWindowResize);
+        };
+
+    }, []);
     return (
         <Paper elevation={3} sx={{padding: '20px', marginTop: '20px', marginBottom: '20px'}} >
-        <Box><button>about me</button></Box>
+        <Box ref={ref}>
+
+            <Document file='assets/cv.pdf' onLoadSuccess={onDocumentLoadSuccess}>
+                    <Page pageNumber={1} width={width} renderAnnotationLayer={false} />
+                </Document>
+
+        </Box>
         </Paper>
     );
 }

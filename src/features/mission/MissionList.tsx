@@ -1,17 +1,25 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {isMobile} from 'react-device-detect';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import {
-  initializeMissions,
-  getMissions,
-} from './missionSlice';
+import {useAppDispatch, useAppSelector} from '../../app/hooks';
+import {getMissions, initializeMissions,} from './missionSlice';
 import './MissionList.module.css';
 import {Mission} from "../../components/Mission";
-import {Card, CardActionArea,Avatar, CardActions, CardContent, CardHeader, Grid, IconButton} from "@mui/material";
+import {Box, Card, CardActionArea, CardActions, CardContent, CardHeader, Grid, Modal} from "@mui/material";
+import {UpdateMission} from "../../components/UpdateMission";
+import {MissionUpdateOperation} from "../../common/Enums";
 
 export function MissionList() {
   const missionList = useAppSelector(getMissions);
   const dispatch = useAppDispatch();
+
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return ( <Grid container spacing={1} direction={isMobile?'column':"row"}>
     <Grid item xs={6} md={2} >
@@ -24,6 +32,14 @@ export function MissionList() {
             <CardActions onClick={() => dispatch(initializeMissions())}>
               <h2>Initialize!</h2>
             </CardActions>
+            <CardActions onClick={() => dispatch(initializeMissions())}>
+              <h2>Initialize!</h2>
+            </CardActions>
+          </CardActionArea>
+          <CardActionArea>
+
+              <h2>Initialize!</h2>
+
           </CardActionArea>
         </CardContent>
 
@@ -34,5 +50,16 @@ export function MissionList() {
         { missionList.map((mission)=>{return <Grid key={mission.id} item xs={6} md={4}><Mission {...mission}/></Grid>})}
       </Grid>
     </Grid>
+    <button onClick={handleOpen}/>
+    <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="parent-modal-title"
+        aria-describedby="parent-modal-description"
+    >
+      <Box className="modal">
+      <UpdateMission operation={MissionUpdateOperation.Add}/>
+      </Box>
+    </Modal>
   </Grid>);
 }

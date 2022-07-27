@@ -1,13 +1,10 @@
 import './Mission.css';
 import {
     Badge,
-    Button,
-    ButtonGroup,
-    Card,
-    CardActions,
+    Card, CardActionArea,
     CardContent,
     CardHeader,
-    IconButton,
+    IconButton, ToggleButton, ToggleButtonGroup,
     Typography,
 } from "@mui/material";
 import React from "react";
@@ -16,7 +13,6 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import {MissionState, updateMissionPriority, updateMissionStatus} from "../features/mission/missionSlice";
 import {format as dateFormat} from "date-fns";
 import {useAppDispatch} from '../app/hooks';
-
 
 export function Mission (props:MissionState){
     const dispatch = useAppDispatch();
@@ -30,59 +26,46 @@ export function Mission (props:MissionState){
         description,
     } = props;
 
-    const setMissionStatus = (status: MissionStatus) => {
-        return dispatch(updateMissionStatus({id, status}))
-    };
+    const handleStatusChange = (event: any, status: any) => {
+        dispatch(updateMissionStatus({id, status}));
+    }
 
-    var formattedDate = dateFormat(new Date(), "MMMM do, yyyy");
+    const formattedDate = date && dateFormat(date, "MMMM do, yyyy");
     return (
-        <Card className="Mission" variant="outlined">
+        <Card className="DisplayMission" variant="outlined">
             <CardHeader
-
-                action={
-                    <IconButton aria-label="settings" onClick={()=>{dispatch(updateMissionPriority({id,priority}))}}>
+                action={<IconButton aria-label="settings" onClick={() => {dispatch(updateMissionPriority({id, priority}))}}>
                         <Badge badgeContent={priority} color="error" title="Priority">
                             <PriorityHighIcon/>
                         </Badge>
-                    </IconButton>
-                    }
-                    title={<div>{title}</div>}
-                    subheader={category}
+                        </IconButton>}
+                title={<div>{title}</div>}
+                subheader={category}
                 />
-                <CardContent>
-                    <Typography sx={{mb: 1.5}} color="text.secondary">
-                        {formattedDate}
-                    </Typography>
-                    <Typography variant="body2">
-                        {description}
-
-                    </Typography>
-
-                </CardContent>
-                <CardActions>
-                    <ButtonGroup variant="outlined" color="info" aria-label="text button group" fullWidth>
-                        <Button size="small"
-                                variant={status === MissionStatus.Waiting ? "contained" : "outlined"}
-                                onClick={() => {
-                                    setMissionStatus(MissionStatus.Waiting)
-                                }}>Waiting</Button>
-                        <Button size="small"
-                                variant={status === MissionStatus.InProgress ? "contained" : "outlined"}
-                                onClick={() => {
-                                    setMissionStatus(MissionStatus.InProgress)
-                                }}>In Progress</Button>
-                        <Button size="small"
-                                variant={status === MissionStatus.Blocked ? "contained" : "outlined"}
-                                onClick={() => {
-                                    setMissionStatus(MissionStatus.Blocked)
-                                }}>Blocked</Button>
-                        <Button size="small"
-                                variant={status === MissionStatus.Done ? "contained" : "outlined"}
-                                onClick={() => {
-                                    setMissionStatus(MissionStatus.Done)
-                                }}>Done</Button>
-                    </ButtonGroup>
-                </CardActions>
-            </Card>
-        );
+            <CardContent>
+                <Typography sx={{mb: 1.5}} color="text.secondary">
+                    {formattedDate}
+                </Typography>
+                <Typography variant="body2">
+                    {description}
+                </Typography>
+            </CardContent>
+            <div className="toggleStatusButton">
+                <ToggleButtonGroup
+                    color="primary"
+                    value={status}
+                    exclusive
+                    onChange={handleStatusChange}
+                    fullWidth
+                    size="small"
+                    className="statusButtons"
+                >
+                    <ToggleButton value={MissionStatus.Waiting}>Waiting</ToggleButton>
+                    <ToggleButton value={MissionStatus.InProgress}>In Progress</ToggleButton>
+                    <ToggleButton value={MissionStatus.Blocked}>Blocked</ToggleButton>
+                    <ToggleButton value={MissionStatus.Done}>Done</ToggleButton>
+                </ToggleButtonGroup>
+            </div>
+        </Card>
+    );
 }
