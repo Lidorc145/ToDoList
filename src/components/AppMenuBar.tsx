@@ -15,7 +15,7 @@ function AppMenuBar() {
                     variant="h6"
                     noWrap
                     component="a"
-                    href="/"
+                    href={packageJson.homepage+"/"}
                     sx={{
                         mr: 10,
                         display: {md: 'flex'},
