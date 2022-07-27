@@ -1,6 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import {MissionPriority, MissionStatus} from "../../common/Enums";
+import { LoremIpsum } from "lorem-ipsum";
+// const LoremIpsum = require("lorem-ipsum").LoremIpsum;
+
+const lorem = new LoremIpsum({
+  sentencesPerParagraph: {
+    max: 8,
+    min: 4
+  },
+  wordsPerSentence: {
+    max: 16,
+    min: 4
+  }
+});
+
 
 export interface MissionState {
   id?: number;
@@ -14,21 +28,26 @@ export interface MissionState {
 export interface MissionListState {
   MissionListState: MissionState[];
 }
-
+let id =0;
+const category = ["Personal", "Work","Education", "Family"]
+const getRandomMission=()=>{
+  const randomCategoryId = Math.floor(Math.random() * category.length);
+   return {
+      id: id++,
+          date: new Date().getTime(),
+        category: category[randomCategoryId],
+        title: lorem.generateSentences(1),
+        priority: Math.floor(Math.random() * (7)),
+        status: Math.floor(Math.random() * (4)),
+        description: lorem.generateParagraphs(7),
+    }
+}
 
 const initialState: MissionListState = {
-  MissionListState: new Array({
-    id: 0,
-    date: new Date().getTime(),
-    category: "Personal",
-    title: "Complete Home Work",
-    priority: MissionPriority.High,
-    status: MissionStatus.InProgress,
-    description: 'Complete all assignments before August.'
-  })
+  MissionListState: new Array(getRandomMission())
 };
 
-let id =1;
+
 export const missionSlice = createSlice({
   name: 'MissionList',
   initialState,
@@ -39,33 +58,10 @@ export const missionSlice = createSlice({
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      state.MissionListState.push({
-        id: id++,
-        date: new Date().getDate(),
-        category: "Personal",
-        title: "Complete Home Work",
-        priority: MissionPriority.High,
-        status: MissionStatus.InProgress,
-        description: 'Complete all assignments before August.'
-      });
-      state.MissionListState.push({
-        id: id++,
-        date: 5146,
-        category: "Work",
-        title: "Search Feature",
-        priority: MissionPriority.Normal,
-        status: MissionStatus.Waiting,
-        description: "add ability to search in tasks."
-      });
-      state.MissionListState.push({
-        id: id++,
-        date: new Date().getDate()+81486,
-        category: "Work",
-        title: "Add new To Do",
-        priority: MissionPriority.Highest,
-        status: MissionStatus.Waiting,
-        description: "add ability to add new tasks."
-      });
+      // @ts-ignore
+      for (let i = 0; i < 6; i++) {
+        state.MissionListState.push(getRandomMission());
+      }
     },
     updateMissionStatus:(state, action: PayloadAction<any>)=>{
       const index = state.MissionListState.findIndex(x=> x.id===action.payload.id);
@@ -73,7 +69,7 @@ export const missionSlice = createSlice({
     },
     updateMissionPriority:(state, action: PayloadAction<any>)=>{
       const index = state.MissionListState.findIndex(x=> x.id===action.payload.id);
-      state.MissionListState[index].priority = (action.payload.priority+1)%7;
+      state.MissionListState[index].priority =(action.payload.priority+1)%7;
     },
     editMission: (state) => {
 

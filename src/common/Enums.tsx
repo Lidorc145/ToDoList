@@ -5,12 +5,12 @@ export enum MissionStatus {
     Done
 }
 export enum MissionPriority {
-    Urgent,
-    Highest,
-    High,
-    Normal,
+    Lowest=1,
     Low,
-    Lowest
+    Normal,
+    High,
+    Highest,
+    Urgent
 }
 export enum MissionUpdateOperation{
     Add,

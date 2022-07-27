@@ -36,13 +36,11 @@ export function UpdateMission(props: Props) {
         description: ''
     });
 
-    console.log("±±±±±±±±±±±±±±±±±±±±±±±±§§§§§§§§§§",values);
     if(props.operation===MissionUpdateOperation.Update && props.missionData) {
         setValues(props.missionData);
     }
 
     const handleChange = (state: keyof MissionState | 'delete', value?: any) => {
-                console.log(state, values)
                 switch (state) {
 
                     case "date":
@@ -65,8 +63,6 @@ export function UpdateMission(props: Props) {
                             }else{
                                 setValues({...values, [state]: event.target.value});
                             }
-                            console.log("±±±±±",{state: state,val:event.target.value,par: value});
-
                         }
                 }
     }

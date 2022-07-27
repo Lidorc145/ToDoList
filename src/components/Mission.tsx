@@ -1,10 +1,12 @@
 import './Mission.css';
 import {
     Badge,
-    Card, CardActionArea,
+    Card,
     CardContent,
-    CardHeader,
-    IconButton, ToggleButton, ToggleButtonGroup,
+    CardHeader, Chip,
+    IconButton,
+    ToggleButton,
+    ToggleButtonGroup,
     Typography,
 } from "@mui/material";
 import React from "react";
@@ -34,12 +36,13 @@ export function Mission (props:MissionState){
     return (
         <Card className="DisplayMission" variant="outlined">
             <CardHeader
-                action={<IconButton aria-label="settings" onClick={() => {dispatch(updateMissionPriority({id, priority}))}}>
-                        <Badge badgeContent={priority} color="error" title="Priority">
-                            <PriorityHighIcon/>
-                        </Badge>
-                        </IconButton>}
-                title={<div>{title}</div>}
+                action={<IconButton aria-label="settings" onClick={() => {
+                    dispatch(updateMissionPriority({id, priority}))
+                }}>
+
+                    <Chip label={priority?MissionPriority[priority].toUpperCase():'SET PRIORITY'} color={translatePriorityToColor()} variant="outlined" icon={priority?<br/>:<PriorityHighIcon />} />
+                </IconButton>}
+                title={<div>{id + " | " + title}</div>}
                 subheader={category}
                 />
             <CardContent>
@@ -68,4 +71,22 @@ export function Mission (props:MissionState){
             </div>
         </Card>
     );
+
+    function translatePriorityToColor() {
+        console.log(priority)
+        switch (priority) {
+            case MissionPriority.Lowest:
+                return 'default';
+            case MissionPriority.Low:
+                return 'info';
+            case MissionPriority.Normal:
+                return 'primary';
+            case MissionPriority.High:
+                return 'secondary';
+            case MissionPriority.Highest:
+                return 'warning';
+            case MissionPriority.Urgent:
+                return 'error';
+        }
+    }
 }
