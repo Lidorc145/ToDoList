@@ -21,7 +21,7 @@ import {DatePicker} from '@mui/x-date-pickers'
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 
 export interface Props {
-    missionData?: MissionState
+    missionData?: MissionState | null
     operation: MissionUpdateOperation
 }
 
@@ -30,15 +30,15 @@ export function UpdateMission(props: Props) {
     const [values, setValues] = React.useState<MissionState>({
         date: new Date().getTime(),
         category: '',
-        title: '',
+        title: 'dasdsa',
         priority: MissionPriority.Normal,
         status: MissionStatus.Waiting,
         description: ''
     });
 
-    if(props.operation===MissionUpdateOperation.Update && props.missionData) {
-        setValues(props.missionData);
-    }
+    console.log(props.missionData);
+
+
 
     const handleChange = (state: keyof MissionState | 'delete', value?: any) => {
                 switch (state) {

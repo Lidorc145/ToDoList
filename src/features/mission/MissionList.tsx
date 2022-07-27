@@ -1,7 +1,8 @@
 import React from 'react';
 import {isMobile} from 'react-device-detect';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
-import {getMissions, initializeMissions,} from './missionSlice';
+import {getMissions, initializeMissions, MissionState,} from './missionSlice';
+import {isModalOpen, closeModal} from '../modal/modalSlice';
 import './MissionList.module.css';
 import {Mission} from "../../components/Mission";
 import {
@@ -21,16 +22,8 @@ import {MissionUpdateOperation} from "../../common/Enums";
 
 export function MissionList() {
   const missionList = useAppSelector(getMissions);
+  const modalOpen = useAppSelector(isModalOpen);
   const dispatch = useAppDispatch();
-
-
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return ( <Grid container spacing={1} direction={isMobile?'column':"row"}>
     <Grid item xs={6} md={2} >
@@ -40,8 +33,6 @@ export function MissionList() {
               <InputLabel>Search</InputLabel>
               <OutlinedInput
                   id="search"
-                  // value={values.title}
-                  // onChange={handleChange('title')}
                   label="Search"
                   required
               />
@@ -57,21 +48,21 @@ export function MissionList() {
             </CardActions>
           </CardActionArea>
           <CardActionArea>
-            <CardActions onClick={handleOpen}>
+            <CardActions >
               <Typography>
                 Add New Mission
               </Typography>
             </CardActions>
           </CardActionArea>
           <CardActionArea>
-            <CardActions onClick={handleOpen}>
+            <CardActions >
               <Typography>
                 Sort By Date
               </Typography>
             </CardActions>
           </CardActionArea>
           <CardActionArea>
-            <CardActions onClick={handleOpen}>
+            <CardActions >
               <Typography>
                 Sort By Priority
               </Typography>
@@ -83,17 +74,19 @@ export function MissionList() {
     </Grid>
     <Grid item xs={6} md={10}>
       <Grid container spacing={isMobile?0:2} direction={isMobile?'column':"row"}>
-        { missionList.map((mission)=>{return <Grid key={mission.id} item xs={6} md={4}><Mission {...mission}/></Grid>})}
+        { missionList.map((missionData:MissionState)=>{return <Grid key={missionData.id} item xs={6} md={4}><Mission {...missionData}  /></Grid>})}
       </Grid>
+
     </Grid>
     <Modal
-        open={open}
-        onClose={handleClose}
+        key="modal"
+        open={modalOpen}
+        onClose={()=>dispatch(closeModal())}
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
     >
       <Box className="modal">
-      <UpdateMission operation={MissionUpdateOperation.Add}/>
+      <UpdateMission operation={MissionUpdateOperation.Update}/>
       </Box>
     </Modal>
   </Grid>);

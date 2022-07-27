@@ -1,8 +1,10 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import missionReducer from '../features/mission/missionSlice';
+import modalReducer from '../features/modal/modalSlice';
+
 
 export const store = configureStore({
-  reducer: missionReducer,
+  reducer: {missionReducer, modalReducer},
 });
 
 export type AppDispatch = typeof store.dispatch;

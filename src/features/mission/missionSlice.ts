@@ -86,6 +86,7 @@ export const { initializeMissions,updateMissionStatus,updateMissionPriority, edi
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const getMissions = (state: RootState) => state.MissionListState;
+export const getMissions = (state: RootState) => state.missionReducer.MissionListState;
+export const getMissionByID = (state: RootState) => state.missionReducer.MissionListState.filter(mission=>mission.id===0);
 
 export default missionSlice.reducer;
