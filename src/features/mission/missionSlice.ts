@@ -2,6 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import {MissionPriority, MissionStatus} from "../../common/Enums";
 import { LoremIpsum } from "lorem-ipsum";
+import {useSelector} from "react-redux";
+import {useMemo, useState} from "react";
 // const LoremIpsum = require("lorem-ipsum").LoremIpsum;
 
 const lorem = new LoremIpsum({
@@ -25,8 +27,14 @@ export interface MissionState {
   status?: MissionStatus;
   description?: string;
 }
+export interface SearchMission {
+  FilteredMissions: MissionState[];
+  text: string;
+}
+
 export interface MissionListState {
   MissionListState: MissionState[];
+  Search: SearchMission;
 }
 let id =0;
 const category = ["Personal", "Work","Education", "Family"]
@@ -44,7 +52,8 @@ const getRandomMission=()=>{
 }
 
 const initialState: MissionListState = {
-  MissionListState: new Array(getRandomMission())
+  MissionListState: new Array(getRandomMission()),
+  Search: {FilteredMissions: new Array(), text: ''}
 };
 
 
@@ -75,6 +84,10 @@ export const missionSlice = createSlice({
       const index = state.MissionListState.findIndex(x=> x.id===action.payload.id);
       state.MissionListState[index].priority =(action.payload.priority+1)%7;
     },
+    searchMission:(state, action: PayloadAction<any>)=>{
+      state.Search.FilteredMissions = state.MissionListState.filter((mission:MissionState)=> JSON.stringify(mission).includes(action.payload.text));
+      state.Search.text=action.payload.text;
+    },
     editMission: (state) => {
 
     },
@@ -88,12 +101,13 @@ export const missionSlice = createSlice({
   },
 });
 
-export const { initializeMissions,removeMission, updateMission,updateMissionStatus,updateMissionPriority, editMission, addMission } = missionSlice.actions;
+export const { initializeMissions,searchMission, removeMission, updateMission,updateMissionStatus,updateMissionPriority, editMission, addMission } = missionSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const getMissions = (state: RootState) => state.missionReducer.MissionListState;
+export const getSearchResults = (state: RootState) => state.missionReducer.Search.FilteredMissions ;
 export const getMissionByID = (state: RootState) => state.missionReducer.MissionListState.filter(mission=>mission.id===0);
 
 export default missionSlice.reducer;

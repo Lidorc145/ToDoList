@@ -4,7 +4,6 @@ import React from "react";
 import './AppMenuBar.css';
 import { Link } from "react-router-dom";
 const pages = ['Home', 'Categories', 'About'];
-const isLoggedIn = true; //todo: need to add support for login
 function AppMenuBar(){
     return (<AppBar position="static">
         <Container maxWidth="xl">
@@ -31,9 +30,6 @@ function AppMenuBar(){
                 <Box sx={{ flexGrow: 1, display: {md: 'inline-flex', paddingRight: '20px'  } }}>
                     <Link to={'/'}><Button key={'home'} sx={{ my: 2, color: 'white', display: 'block' }}>
                         Home
-                    </Button></Link>
-                    <Link to={'/AddMission'}><Button key={'home'} sx={{ my: 2, color: 'white', display: 'block' }}>
-                        Add
                     </Button></Link>
                         <Link to={'catgories'}><Button key={'catgories'} sx={{ my: 2, color: 'white', display: 'block' }}>
                                 Categories

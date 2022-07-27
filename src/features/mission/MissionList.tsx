@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {isMobile} from 'react-device-detect';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
-import {getMissions, initializeMissions, MissionState,} from './missionSlice';
+import {getMissions, searchMission, initializeMissions, MissionState, getSearchResults,} from './missionSlice';
 import {closeModal, isModalOpen, openModal} from '../modal/modalSlice';
 import './MissionList.module.css';
 import {Mission} from "../../components/Mission";
@@ -23,25 +23,29 @@ import {UpdateMission} from "../../components/UpdateMission";
 import {MissionUpdateOperation} from "../../common/Enums";
 
 export function MissionList() {
-  const missionList = useAppSelector(getMissions);
+  let missionList = useAppSelector(getMissions);
   const modalOpen = useAppSelector(isModalOpen);
+  const searchresults = useAppSelector(getSearchResults);
   const dispatch = useAppDispatch();
+  const [searchResult, setSearchResult] = useState<MissionState[]>(new Array());
+  const printMission = (list:MissionState[])=>{
+    return list.map((missionData:MissionState)=>{return <Grid key={missionData.id} item xs={6} md={4}><Mission {...missionData}  /></Grid>});
+  }
 
-
-  return ( <Grid container spacing={1} direction={isMobile?'column':"row"}>
+  console.log(searchResult);
+  return ( <Grid container spacing={2} direction={isMobile?'column':"row"}>
     <Grid item xs={6} md={2} >
-      <Card className="Mission" variant="outlined">
-        <CardHeader
-            subheader={<FormControl fullWidth className="searchInput">
+      <Card variant="outlined"  className="searchInput">
+        <FormControl fullWidth>
               <InputLabel>Search</InputLabel>
               <OutlinedInput
                   id="search"
                   label="Search"
+                  onChange={(e)=>{dispatch(searchMission({text: e.target.value})); setSearchResult(searchresults)}}
                   required
+                  fullWidth
               />
-            </FormControl>}
-        />
-
+            </FormControl>
         <CardContent>
           <CardActionArea>
             <CardActions onClick={() => dispatch(initializeMissions())}>
@@ -77,7 +81,9 @@ export function MissionList() {
     </Grid>
     <Grid item xs={6} md={10}>
       <Grid container spacing={isMobile?0:2} direction={isMobile?'column':"row"}>
-        { missionList.map((missionData:MissionState)=>{return <Grid key={missionData.id} item xs={6} md={4}><Mission {...missionData}  /></Grid>})}
+
+        {(searchresults.length>0)?printMission(searchresults):printMission(missionList)}
+
       </Grid>
 
     </Grid>
@@ -92,5 +98,9 @@ export function MissionList() {
       <UpdateMission/>
       </Box>
     </Modal>
-  </Grid>);
+  </Grid>
+  );
+
+
 }
+
