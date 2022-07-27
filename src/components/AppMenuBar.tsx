@@ -3,6 +3,8 @@ import {Notes as NotesIcon} from "@mui/icons-material";
 import React from "react";
 import './AppMenuBar.css';
 import {Link} from "react-router-dom";
+import packageJson from '../../package.json';
+import { BrowserRouter } from "react-router-dom";
 
 function AppMenuBar() {
     return (<AppBar position="static">
@@ -27,10 +29,10 @@ function AppMenuBar() {
                     To Do List
                 </Typography>
                 <Box sx={{flexGrow: 1, display: {md: 'inline-flex', paddingRight: '20px'}}}>
-                    <Link to={'/'}><Button key={'home'} sx={{my: 2, color: 'white', display: 'block'}}>
+                    <Link to={packageJson.homepage+'/'}><Button key={'home'} sx={{my: 2, color: 'white', display: 'block'}}>
                         Home
                     </Button></Link>
-                    <Link to={'about'}><Button key={'about'} sx={{my: 2, color: 'white', display: 'block'}}>
+                    <Link to={packageJson.homepage+'/about'}><Button key={'about'} sx={{my: 2, color: 'white', display: 'block'}}>
                         About Me
                     </Button></Link>
                 </Box>
