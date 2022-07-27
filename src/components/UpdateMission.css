@@ -11,3 +11,15 @@ div.operationButtons>button {
     margin: 10px;
     width: 300px;
 }
+div.modal.MuiBox-root{
+    position: absolute;
+    top:50%;
+    left:50%;
+    text-align: center;
+    width: 60%;
+    transform: translate(-50%, -50%);
+    justify-content: center;
+}
+div.modal{
+    width: 10%;
+}

@@ -9,7 +9,7 @@ export interface ModalState {
 
 const initialState: ModalState = {
     open: false,
-    data: 3
+    data: null
 };
 
 
@@ -19,6 +19,7 @@ export const modalSlice = createSlice({
     // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
         updateMissionData:(state, action: PayloadAction<any>)=>{
+            console.log("^^^^^",action.payload.data);
             state.data = action.payload.data;
         },
         closeModal:(state)=>{

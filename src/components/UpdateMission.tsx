@@ -15,10 +15,11 @@ import React from "react";
 import {MissionStatus, MissionPriority, MissionUpdateOperation} from "../common/Enums";
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import {addMission, MissionState} from "../features/mission/missionSlice";
-import {useAppDispatch} from '../app/hooks';
+import {useAppDispatch, useAppSelector} from '../app/hooks';
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import {DatePicker} from '@mui/x-date-pickers'
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {getMissionData} from "../features/modal/modalSlice";
 
 export interface Props {
     missionData?: MissionState | null
@@ -27,18 +28,8 @@ export interface Props {
 
 export function UpdateMission(props: Props) {
     const dispatch = useAppDispatch();
-    const [values, setValues] = React.useState<MissionState>({
-        date: new Date().getTime(),
-        category: '',
-        title: 'dasdsa',
-        priority: MissionPriority.Normal,
-        status: MissionStatus.Waiting,
-        description: ''
-    });
-
-    console.log(props.missionData);
-
-
+    const missionData = useAppSelector(getMissionData);
+    const [values, setValues] = React.useState<MissionState>(missionData);
 
     const handleChange = (state: keyof MissionState | 'delete', value?: any) => {
                 switch (state) {

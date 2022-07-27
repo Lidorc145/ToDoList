@@ -37,7 +37,7 @@ export function Mission (props:MissionState){
 
     const formattedDate = date && dateFormat(date, "MMMM do, yyyy");
     return (
-        <Card className="DisplayMission" variant="outlined" onClick={()=>{dispatch(updateMissionData({...props})); dispatch(openModal())}}>
+        <Card className="DisplayMission" variant="outlined" onClick={()=>{dispatch(updateMissionData({data: props})); dispatch(openModal())}}>
             <CardHeader
                 action={<IconButton aria-label="settings" onClick={(e) => {
                     e.stopPropagation();
