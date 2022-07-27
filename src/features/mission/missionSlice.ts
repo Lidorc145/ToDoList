@@ -42,7 +42,7 @@ const getRandomMission=()=>{
   const randomCategoryId = Math.floor(Math.random() * category.length);
    return {
       id: id++,
-          date: new Date().getTime(),
+          date: Math.floor(Math.random() * (new Date().getTime())),
         category: category[randomCategoryId],
         title: lorem.generateSentences(1),
         priority: Math.floor(Math.random() * (7)),
@@ -85,10 +85,12 @@ export const missionSlice = createSlice({
       state.MissionListState[index].priority =(action.payload.priority+1)%7;
     },
     searchMission:(state, action: PayloadAction<any>)=>{
-      state.Search.FilteredMissions = state.MissionListState.filter((mission:MissionState)=> JSON.stringify(mission).includes(action.payload.text));
-      state.Search.text=action.payload.text;
-    },
-    editMission: (state) => {
+      state.Search.text = action.payload.text;
+      if(action.payload.text.length>0) {
+        state.Search.FilteredMissions = state.MissionListState.filter((mission: MissionState) => JSON.stringify(mission).toLowerCase().includes(action.payload.text.toLowerCase()));
+      }else{
+        state.Search.FilteredMissions = new Array();
+      }
 
     },
     // Use the PayloadAction type to declare the contents of `action.payload`
@@ -98,10 +100,24 @@ export const missionSlice = createSlice({
     removeMission:(state, action: PayloadAction<any>)=>{
       state.MissionListState=state.MissionListState.filter(x=> x.id!=action.payload.id);
     },
+    sortMissions:(state,action: PayloadAction<any>)=> {
+      const attribute = action.payload.attribute;
+      if (state.Search.text.length > 0) {
+        state.Search.FilteredMissions = state.Search.FilteredMissions.sort(function (a:MissionState, b:MissionState) {
+          // @ts-ignore
+          return action.payload.func((b[attribute]),(a[attribute]));
+        });
+      } else {
+        state.MissionListState = state.MissionListState.sort(function (a:MissionState, b:MissionState) {
+          // @ts-ignore
+          return action.payload.func((b[attribute]),(a[attribute]));
+        });
+      }
+    }
   },
 });
 
-export const { initializeMissions,searchMission, removeMission, updateMission,updateMissionStatus,updateMissionPriority, editMission, addMission } = missionSlice.actions;
+export const { initializeMissions,sortMissions,searchMission, removeMission, updateMission,updateMissionStatus,updateMissionPriority, addMission } = missionSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

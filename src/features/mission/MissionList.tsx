@@ -1,7 +1,14 @@
 import React, {useState} from 'react';
 import {isMobile} from 'react-device-detect';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
-import {getMissions, searchMission, initializeMissions, MissionState, getSearchResults,} from './missionSlice';
+import {
+  getMissions,
+  searchMission,
+  initializeMissions,
+  MissionState,
+  getSearchResults,
+  sortMissions,
+} from './missionSlice';
 import {closeModal, isModalOpen, openModal} from '../modal/modalSlice';
 import './MissionList.module.css';
 import {Mission} from "../../components/Mission";
@@ -16,11 +23,11 @@ import {
   Grid,
   InputLabel,
   Modal,
-  OutlinedInput,
+  OutlinedInput, ToggleButton, ToggleButtonGroup,
   Typography
 } from "@mui/material";
 import {UpdateMission} from "../../components/UpdateMission";
-import {MissionUpdateOperation} from "../../common/Enums";
+import {MissionStatus, MissionUpdateOperation} from "../../common/Enums";
 
 export function MissionList() {
   let missionList = useAppSelector(getMissions);
@@ -45,37 +52,35 @@ export function MissionList() {
                   required
                   fullWidth
               />
-            </FormControl>
-        <CardContent>
-          <CardActionArea>
-            <CardActions onClick={() => dispatch(initializeMissions())}>
-              <Typography>
-                Initialize Missions
-              </Typography>
-            </CardActions>
-          </CardActionArea>
-          <CardActionArea>
-            <CardActions onClick={() => dispatch(openModal())}>
-              <Typography>
-                Add New Mission
-              </Typography>
-            </CardActions>
-          </CardActionArea>
-          <CardActionArea>
-            <CardActions >
-              <Typography>
-                Sort By Date
-              </Typography>
-            </CardActions>
-          </CardActionArea>
-          <CardActionArea>
-            <CardActions >
-              <Typography>
-                Sort By Priority
-              </Typography>
-            </CardActions>
-          </CardActionArea>
-        </CardContent>
+        </FormControl>
+        <FormControl fullWidth>
+          <ToggleButtonGroup
+              color="primary"
+              fullWidth
+              size="large"
+              orientation="vertical"
+              className="sortButtons"
+          >
+            <ToggleButton value={"DASDASD"} onClick={() => dispatch(initializeMissions())}>
+              Initialize Missions
+            </ToggleButton>
+                <ToggleButton value={"DASDASD"} onClick={() => dispatch(openModal())}>
+                  Add New Mission
+                </ToggleButton>
+                <ToggleButton value={"dsa"} onClick={()=> dispatch(sortMissions({attribute: 'id', func: (a:any,b:any)=>(b-a)}))}>
+                  Sort By ID
+                </ToggleButton>
+          <ToggleButton value="ss" onClick={()=> dispatch(sortMissions({attribute: 'date', func: (a:any,b:any)=>(a-b)}))}>
+            Sort By Date
+          </ToggleButton>
+          <ToggleButton value={"da"} onClick={()=> dispatch(sortMissions({attribute: 'priority', func: (a:any,b:any)=>(a-b)}))}>
+            Sort By Priority
+          </ToggleButton>
+          <ToggleButton value="31" onClick={()=> dispatch(sortMissions({attribute: 'status', func: (a:any,b:any)=>(a-b)}))}>
+            Sort By Status
+          </ToggleButton>
+          </ToggleButtonGroup>
+        </FormControl>
 
       </Card>
     </Grid>

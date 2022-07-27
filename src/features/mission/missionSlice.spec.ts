@@ -1,6 +1,5 @@
 import counterReducer, {
   initializeMissions,
-    editMission,
     addMission
 } from './missionSlice';
 
