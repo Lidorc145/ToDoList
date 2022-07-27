@@ -4,7 +4,7 @@ import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {getMissions, initializeMissions,} from './missionSlice';
 import './MissionList.module.css';
 import {Mission} from "../../components/Mission";
-import {Box, Card, CardActionArea, CardActions, CardContent, CardHeader, Grid, Modal} from "@mui/material";
+import {Box, Card, CardActionArea, CardActions, CardContent, CardHeader, Grid, Modal, Typography} from "@mui/material";
 import {UpdateMission} from "../../components/UpdateMission";
 import {MissionUpdateOperation} from "../../common/Enums";
 
@@ -25,21 +25,22 @@ export function MissionList() {
     <Grid item xs={6} md={2} >
       <Card className="Mission" variant="outlined">
         <CardHeader
-            title="Tasks"
+            subheader="Search"
         />
         <CardContent>
           <CardActionArea>
             <CardActions onClick={() => dispatch(initializeMissions())}>
-              <h2>Initialize!</h2>
-            </CardActions>
-            <CardActions onClick={() => dispatch(initializeMissions())}>
-              <h2>Initialize!</h2>
+              <Typography>
+                Initialize Missions
+              </Typography>
             </CardActions>
           </CardActionArea>
           <CardActionArea>
-
-              <h2>Initialize!</h2>
-
+            <CardActions onClick={handleOpen}>
+              <Typography>
+                Add New Mission
+              </Typography>
+            </CardActions>
           </CardActionArea>
         </CardContent>
 
@@ -50,7 +51,6 @@ export function MissionList() {
         { missionList.map((mission)=>{return <Grid key={mission.id} item xs={6} md={4}><Mission {...mission}/></Grid>})}
       </Grid>
     </Grid>
-    <button onClick={handleOpen}/>
     <Modal
         open={open}
         onClose={handleClose}
