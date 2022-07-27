@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "https://lidorc145.github.io/ToDoList/build/",
-  "basename": "/ToDoList/build",
   "dependencies": {
     "@date-io/date-fns": "^2.14.0",
     "@emotion/react": "^11.9.3",

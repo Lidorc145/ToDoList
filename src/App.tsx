@@ -12,7 +12,7 @@ function App() {
         <BrowserRouter>
             <AppMenuBar/>
             <Container maxWidth={'xl'} fixed>
-                <Routes location={packageJson.basename}>
+                <Routes>
                     <Route path="/" element={<MissionList/>}/>
                     <Route path="about" element={<About/>}/>
                     <Route path="*" element={<p>Error 404: page not found</p>}/>
