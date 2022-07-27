@@ -37,7 +37,7 @@ function AppMenuBar() {
                     </Button></Link>
                 </Box>
                 <Box sx={{flexGrow: 0}}>
-                    <Link to={'about'}>
+                    <Link to={packageJson.homepage+'/about'}>
                         <Tooltip title="Lidor Cohen">
                             <IconButton sx={{p: 0}}>
                                 <Avatar src={'assets/profile.png'}/>
