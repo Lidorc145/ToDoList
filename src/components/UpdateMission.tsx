@@ -1,7 +1,7 @@
 import './UpdateMission.css';
 import {
     Button,
-    Card,
+    Card, CardActionArea,
     CardContent,
     CardHeader,
     Chip,
@@ -84,7 +84,7 @@ export function UpdateMission(props: Props) {
                           icon={values.priority ? <br/> : <PriorityHighIcon/>}/>
                 </IconButton>}
 
-                subheader={MissionUpdateOperation[operation] + " Mission: #" + values.id}
+                subheader={MissionUpdateOperation[operation] + " Mission: "+(values.id!==undefined?"#" + values.id:'')}
             />
             <CardContent>
                 <FormControl fullWidth className="formControl">
@@ -122,16 +122,16 @@ export function UpdateMission(props: Props) {
                 </FormControl>
                 <FormControl fullWidth className="formControl">
                     <ToggleButtonGroup
+                        className={"UpdateMissionStatus"}
                         color="primary"
                         value={values.status}
                         exclusive
                         onChange={handleChange('status')}
-                        fullWidth
-                    >
-                        <ToggleButton value={MissionStatus.Waiting}>Waiting</ToggleButton>
-                        <ToggleButton value={MissionStatus.InProgress}>In Progress</ToggleButton>
-                        <ToggleButton value={MissionStatus.Blocked}>Blocked</ToggleButton>
-                        <ToggleButton value={MissionStatus.Done}>Done</ToggleButton>
+                        fullWidth>
+                            <ToggleButton value={MissionStatus.Waiting}>Waiting</ToggleButton>
+                            <ToggleButton value={MissionStatus.InProgress}>In Progress</ToggleButton>
+                            <ToggleButton value={MissionStatus.Blocked}>Blocked</ToggleButton>
+                            <ToggleButton value={MissionStatus.Done}>Done</ToggleButton>
                     </ToggleButtonGroup>
                 </FormControl>
                 <FormControl fullWidth className="operationButtons" onClick={() => dispatch(closeModal())}>

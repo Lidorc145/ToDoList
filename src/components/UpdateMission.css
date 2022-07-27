@@ -13,16 +13,26 @@ div.operationButtons > button {
     margin: 10px;
     width: 300px;
 }
-
-div.modal.MuiBox-root {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 60%;
-    transform: translate(-50%, -50%);
-    justify-content: center;
+@media only screen and (max-width: 700px) {
+    div.modal.MuiBox-root {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 90%;
+        transform: translate(-50%, -50%);
+        justify-content: center;
+    }
 }
-
+@media only screen and (min-width: 700px) {
+    div.modal.MuiBox-root {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 35%;
+        transform: translate(-50%, -50%);
+        justify-content: center;
+    }
+}
 div.modal {
     width: 10%;
 }

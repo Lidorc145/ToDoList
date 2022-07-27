@@ -37,7 +37,6 @@ export function MissionList() {
         });
     }
 
-    console.log(searchResult);
     return (<Grid container spacing={2} direction={isMobile ? 'column' : "row"}>
             <Grid item xs={6} md={2}>
                 <Card variant="outlined" className="searchInput">
