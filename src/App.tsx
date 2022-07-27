@@ -5,13 +5,14 @@ import './App.css';
 import {Container} from "@mui/material";
 import AppMenuBar from "./components/AppMenuBar";
 import About from "./pages/About";
+import packageJson from '../package.json';
 
 function App() {
     return (
         <BrowserRouter>
             <AppMenuBar/>
             <Container maxWidth={'xl'} fixed>
-                <Routes>
+                <Routes location={packageJson.basename}>
                     <Route path="/" element={<MissionList/>}/>
                     <Route path="about" element={<About/>}/>
                     <Route path="*" element={<p>Error 404: page not found</p>}/>
