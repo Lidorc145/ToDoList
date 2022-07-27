@@ -43,14 +43,16 @@ function AppMenuBar(){
                             </Button></Link>
 
                 </Box>
-                {isLoggedIn&&(
+
                     <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton sx={{ p: 0 }}>
-                                <Avatar/>
-                            </IconButton>
-                        </Tooltip>
-                    </Box>)}
+                        <Link to={'about'}>
+                            <Tooltip title="Lidor Cohen">
+                                <IconButton sx={{ p: 0 }}>
+                                    <Avatar src={'assets/profile.png'}/>
+                                </IconButton>
+                            </Tooltip>
+                        </Link>
+                    </Box>
             </Toolbar>
         </Container>
     </AppBar>);
