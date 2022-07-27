@@ -1,38 +1,46 @@
-div.MuiButtonGroup-root > button.MuiButton-root{
-font-size: x-small;
+div.MuiButtonGroup-root > button.MuiButton-root {
+    font-size: x-small;
 }
-.MuiButtonGroup-root{
+
+.MuiButtonGroup-root {
 
 }
-.DisplayMission{
+
+.DisplayMission {
     min-width: 250px;
     margin-top: 10px;
     margin-bottom: 10px;
 }
-span.MuiTypography-root>div{
+
+span.MuiTypography-root > div {
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-p.MuiTypography-root{
+
+p.MuiTypography-root {
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-div.statusButtons{
+
+div.statusButtons {
 
     position: absolute;
     bottom: 0;
 }
-.statusButtons>button{
+
+.statusButtons > button {
     font-size: xx-small;
 }
+
 div.MuiCardContent-root {
     padding-top: 0px;
 }
-div.toggleStatusButton{
+
+div.toggleStatusButton {
     position: relative;
     min-height: 35px;
 

@@ -2,13 +2,13 @@ import {AppBar, Avatar, Box, Button, Container, IconButton, Toolbar, Tooltip, Ty
 import {Notes as NotesIcon} from "@mui/icons-material";
 import React from "react";
 import './AppMenuBar.css';
-import { Link } from "react-router-dom";
-const pages = ['Home', 'Categories', 'About'];
-function AppMenuBar(){
+import {Link} from "react-router-dom";
+
+function AppMenuBar() {
     return (<AppBar position="static">
         <Container maxWidth="xl">
             <Toolbar disableGutters>
-                <NotesIcon sx={{ display: { md: 'flex' }, mr: 1 }} />
+                <NotesIcon sx={{display: {md: 'flex'}, mr: 1}}/>
                 <Typography
                     variant="h6"
                     noWrap
@@ -16,7 +16,7 @@ function AppMenuBar(){
                     href="/"
                     sx={{
                         mr: 10,
-                        display: {  md: 'flex' },
+                        display: {md: 'flex'},
                         fontFamily: 'monospace',
                         fontWeight: 700,
                         letterSpacing: '.3rem',
@@ -24,31 +24,25 @@ function AppMenuBar(){
                         textDecoration: 'none',
                     }}
                 >
-
                     To Do List
                 </Typography>
-                <Box sx={{ flexGrow: 1, display: {md: 'inline-flex', paddingRight: '20px'  } }}>
-                    <Link to={'/'}><Button key={'home'} sx={{ my: 2, color: 'white', display: 'block' }}>
+                <Box sx={{flexGrow: 1, display: {md: 'inline-flex', paddingRight: '20px'}}}>
+                    <Link to={'/'}><Button key={'home'} sx={{my: 2, color: 'white', display: 'block'}}>
                         Home
                     </Button></Link>
-                        <Link to={'catgories'}><Button key={'catgories'} sx={{ my: 2, color: 'white', display: 'block' }}>
-                                Categories
-                            </Button></Link>
-                        <Link to={'about'}><Button key={'about'} sx={{ my: 2, color: 'white', display: 'block' }}>
-                               About Me
-                            </Button></Link>
-
+                    <Link to={'about'}><Button key={'about'} sx={{my: 2, color: 'white', display: 'block'}}>
+                        About Me
+                    </Button></Link>
                 </Box>
-
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Link to={'about'}>
-                            <Tooltip title="Lidor Cohen">
-                                <IconButton sx={{ p: 0 }}>
-                                    <Avatar src={'assets/profile.png'}/>
-                                </IconButton>
-                            </Tooltip>
-                        </Link>
-                    </Box>
+                <Box sx={{flexGrow: 0}}>
+                    <Link to={'about'}>
+                        <Tooltip title="Lidor Cohen">
+                            <IconButton sx={{p: 0}}>
+                                <Avatar src={'assets/profile.png'}/>
+                            </IconButton>
+                        </Tooltip>
+                    </Link>
+                </Box>
             </Toolbar>
         </Container>
     </AppBar>);

@@ -1,25 +1,25 @@
 import './Mission.css';
 import {
-    Badge,
     Card,
     CardContent,
-    CardHeader, Chip,
+    CardHeader,
+    Chip,
     IconButton,
     ToggleButton,
     ToggleButtonGroup,
     Typography,
 } from "@mui/material";
 import React from "react";
-import {MissionPriority, MissionStatus, MissionUpdateOperation} from "../common/Enums";
+import {MissionPriority, MissionStatus} from "../common/Enums";
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import {MissionState, updateMissionPriority, updateMissionStatus} from "../features/mission/missionSlice";
 import {format as dateFormat} from "date-fns";
 import {useAppDispatch} from '../app/hooks';
-import {openModal,updateMissionData} from "../features/modal/modalSlice";
+import {openModal, updateMissionData} from "../features/modal/modalSlice";
 import {translatePriorityToColor} from "../common/Utils";
 
 
-export function Mission (props:MissionState){
+export function Mission(props: MissionState) {
     const dispatch = useAppDispatch();
     const {
         id,
@@ -38,18 +38,23 @@ export function Mission (props:MissionState){
 
     const formattedDate = date && dateFormat(date, "MMMM do, yyyy");
     return (
-        <Card className="DisplayMission" variant="outlined" onClick={()=>{dispatch(updateMissionData({data: props})); dispatch(openModal())}}>
+        <Card className="DisplayMission" variant="outlined" onClick={() => {
+            dispatch(updateMissionData({data: props}));
+            dispatch(openModal())
+        }}>
             <CardHeader
                 action={<IconButton aria-label="settings" onClick={(e) => {
                     e.stopPropagation();
                     dispatch(updateMissionPriority({id, priority}))
                 }}>
 
-                    <Chip label={priority?MissionPriority[priority].toUpperCase():'SET PRIORITY'} color={translatePriorityToColor(priority)} variant="outlined" icon={priority?<br/>:<PriorityHighIcon />} />
+                    <Chip label={priority ? MissionPriority[priority].toUpperCase() : 'SET PRIORITY'}
+                          color={translatePriorityToColor(priority)} variant="outlined"
+                          icon={priority ? <br/> : <PriorityHighIcon/>}/>
                 </IconButton>}
                 title={<div>{id + " | " + title}</div>}
                 subheader={category}
-                />
+            />
             <CardContent>
                 <Typography sx={{mb: 1.5}} color="text.secondary">
                     {formattedDate}

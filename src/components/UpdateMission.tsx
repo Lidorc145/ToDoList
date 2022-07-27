@@ -39,9 +39,9 @@ export function UpdateMission(props: Props) {
         priority: MissionPriority.Normal,
         status: MissionStatus.Waiting,
         description: '',
-            ...missionData});
-console.log("ASDADSASDAD", missionData)
-    const [operation, setOperation] = useState<MissionUpdateOperation>(missionData?MissionUpdateOperation.Update:MissionUpdateOperation.Add)
+        ...missionData
+    });
+    const [operation, setOperation] = useState<MissionUpdateOperation>(missionData ? MissionUpdateOperation.Update : MissionUpdateOperation.Add)
 
     const handleChange = (state: keyof MissionState | 'clear', value?: any) => {
         switch (state) {
@@ -59,10 +59,10 @@ console.log("ASDADSASDAD", missionData)
                 });
                 break;
             default:
-                return (event: any,value?:any) => {
-                    if(value!=undefined){
+                return (event: any, value?: any) => {
+                    if (value !== undefined) {
                         setValues({...values, [state]: value});
-                    }else{
+                    } else {
                         setValues({...values, [state]: event.target.value});
                     }
                 }
@@ -75,14 +75,16 @@ console.log("ASDADSASDAD", missionData)
             <CardHeader
 
                 action={<IconButton aria-label="settings" onClick={(e) => {
-                    let newPriority = (values.priority+1)%7;
-                    setValues({...values, priority: newPriority });
+                    let newPriority = (values.priority + 1) % 7;
+                    setValues({...values, priority: newPriority});
                 }}>
 
-                    <Chip label={values.priority?MissionPriority[values.priority].toUpperCase():'SET PRIORITY'} color={translatePriorityToColor(values.priority)} variant="outlined" icon={values.priority?<br/>:<PriorityHighIcon />} />
-                    </IconButton>}
+                    <Chip label={values.priority ? MissionPriority[values.priority].toUpperCase() : 'SET PRIORITY'}
+                          color={translatePriorityToColor(values.priority)} variant="outlined"
+                          icon={values.priority ? <br/> : <PriorityHighIcon/>}/>
+                </IconButton>}
 
-                subheader={MissionUpdateOperation[operation]+" Mission: #"+values.id}
+                subheader={MissionUpdateOperation[operation] + " Mission: #" + values.id}
             />
             <CardContent>
                 <FormControl fullWidth className="formControl">
@@ -113,7 +115,7 @@ console.log("ASDADSASDAD", missionData)
                         <DatePicker
                             label="Date"
                             value={values.date}
-                            onChange={(value:Date|null)=>handleChange('date', value && value.getTime())}
+                            onChange={(value: Date | null) => handleChange('date', value && value.getTime())}
                             renderInput={(params: any) => <TextField {...params}/>}
                         />
                     </LocalizationProvider>
@@ -132,8 +134,8 @@ console.log("ASDADSASDAD", missionData)
                         <ToggleButton value={MissionStatus.Done}>Done</ToggleButton>
                     </ToggleButtonGroup>
                 </FormControl>
-                <FormControl fullWidth className="operationButtons" onClick={()=>dispatch(closeModal())}>
-                    {operation === MissionUpdateOperation.Update &&(<>
+                <FormControl fullWidth className="operationButtons" onClick={() => dispatch(closeModal())}>
+                    {operation === MissionUpdateOperation.Update && (<>
                         <Button size="small"
                                 color="error"
                                 variant="contained"
@@ -141,18 +143,21 @@ console.log("ASDADSASDAD", missionData)
                         <Button size="small"
                                 color={"success"}
                                 variant="contained"
-                                onClick={()=>dispatch(updateMission(values))}>Update Mission</Button>
+                                onClick={() => dispatch(updateMission(values))}>Update Mission</Button>
                     </>)
                     }
-                    {operation === MissionUpdateOperation.Add &&(<>
+                    {operation === MissionUpdateOperation.Add && (<>
                         <Button size="small"
                                 color="error"
                                 variant="contained"
-                                onClick={(e) => {e.stopPropagation(); handleChange('clear');}}>Clear</Button>
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleChange('clear');
+                                }}>Clear</Button>
                         <Button size="small"
                                 color={"success"}
                                 variant="contained"
-                                onClick={()=>dispatch(addMission(values))}>Add Mission</Button>
+                                onClick={() => dispatch(addMission(values))}>Add Mission</Button>
                     </>)
                     }
                 </FormControl>

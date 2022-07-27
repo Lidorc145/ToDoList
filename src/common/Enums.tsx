@@ -4,15 +4,17 @@ export enum MissionStatus {
     Blocked,
     Done
 }
+
 export enum MissionPriority {
-    Lowest=1,
+    Lowest = 1,
     Low,
     Normal,
     High,
     Highest,
     Urgent
 }
-export enum MissionUpdateOperation{
+
+export enum MissionUpdateOperation {
     Add,
     Update,
     Delete
